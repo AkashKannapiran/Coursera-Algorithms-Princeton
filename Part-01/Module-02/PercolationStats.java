@@ -1,0 +1,73 @@
+/* *****************************************************************************
+ *  Name:              Akash Kannapiran
+ *  Coursera User ID:  akash-kannapiran
+ *  Last modified:     09/03/2026
+ **************************************************************************** */
+
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.StdRandom;
+import edu.princeton.cs.algs4.StdStats;
+
+public class PercolationStats {
+
+    private static final double CONFIDENCE_95 = 1.96;
+    private final int trials;
+    private final double mean, stddev;
+
+    public PercolationStats(int n, int trials) {
+        if (n <= 0 || trials <= 0) {
+            throw new IllegalArgumentException("ERROR");
+        }
+
+        this.trials = trials;
+        double[] proportionOfSitesOpenedPerTrial = new double[trials];
+        double totalSites = n * n;
+
+        for (int trial = 0; trial < trials; trial++) {
+            Percolation percolation = new Percolation(n);
+
+            while (true) {
+                int randomRow = StdRandom.uniform(1, n + 1);
+                int randomCol = StdRandom.uniform(1, n + 1);
+                percolation.open(randomRow, randomCol);
+
+                if (percolation.percolates()) {
+                    break;
+                }
+            }
+
+            proportionOfSitesOpenedPerTrial[trial] = percolation.numberOfOpenSites() / totalSites;
+        }
+
+        this.mean = StdStats.mean(proportionOfSitesOpenedPerTrial);
+        this.stddev = StdStats.stddev(proportionOfSitesOpenedPerTrial);
+    }
+
+    public double mean() {
+        return this.mean;
+    }
+
+    public double stddev() {
+        return this.stddev;
+    }
+
+    public double confidenceLo() {
+        return mean() - CONFIDENCE_95 * stddev() / Math.sqrt(trials);
+    }
+
+    public double confidenceHi() {
+        return mean() + CONFIDENCE_95 * stddev() / Math.sqrt(trials);
+    }
+
+    public static void main(String[] args) {
+        int n = Integer.parseInt(StdIn.readString());
+        int trials = Integer.parseInt(StdIn.readString());
+        PercolationStats stats = new PercolationStats(n, trials);
+        StdOut.print("mean = " + stats.mean());
+        StdOut.print("stddev = " + stats.stddev());
+        StdOut.print(
+                "95% confidence interval = [" + stats.confidenceLo() + ", " + stats.confidenceHi()
+                        + "]");
+    }
+}
