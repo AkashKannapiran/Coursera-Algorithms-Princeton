@@ -44,10 +44,10 @@ Coursera-Algorithms-Princeton
 ## Part I
 
 * [x] Module 01 – Course Introduction
-* [ ] Module 02 – Union-Find
-* [ ] Module 03 – Analysis of Algorithms
-* [ ] Module 04 – Stacks and Queues
-* [ ] Module 05 – Elementary Sorts
+* [x] Module 02 – Union-Find
+* [x] Module 03 – Analysis of Algorithms
+* [x] Module 04 – Stacks and Queues
+* [x] Module 05 – Elementary Sorts
 * [ ] Module 06 – Mergesort
 * [ ] Module 07 – Quicksort
 * [ ] Module 08 – Priority Queues
